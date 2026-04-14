@@ -31,6 +31,10 @@
   overflow-y: auto; 
   
   padding-right: 10px; 
+  background-color: #222222; 
+  border: 1px solid #34495e; 
+  border-radius: 8px;        
+  padding: 15px;
 }
 
 

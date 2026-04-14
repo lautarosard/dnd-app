@@ -73,9 +73,9 @@ export default function SpellCard({ nombre, nivel, url}) {
                     e.stopPropagation(); // Evita que la tarjeta se cierre al hacer clic acá
                     alert(`¡${nombre} añadido a tu Grimorio!`);
                   }}
-                ><i class="animation"></i>
+                ><i className="animation"></i>
                   Añadir al Grimorio
-                  <i class="animation"></i>
+                  <i className="animation"></i>
                 </button>
               </div>
             )
