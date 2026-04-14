@@ -5,7 +5,11 @@ function Hero() {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/search");
+    const seccionDestino = document.getElementById("seccion-hechizos");
+    
+    if (seccionDestino) {
+      seccionDestino.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
