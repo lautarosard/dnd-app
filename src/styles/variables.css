@@ -1,0 +1,26 @@
+:root {
+  /*  Colores principales */
+  --color-primary: #B23A3A;
+  --color-primary-dark: #7A1F1F;
+  --color-primary-light: #E05A5A;
+
+  /*  Fondo */
+  --color-bg: #121212;
+  --color-surface: #1E1E1E;
+  --color-card: #2A2A2A;
+
+  /*  Secundarios */
+  --color-gold: #D4AF37;
+  --color-purple: #6C4AB6;
+  --color-blue: #3A86FF;
+
+  /*  Texto */
+  --color-text-primary: #F5F5F5;
+  --color-text-secondary: #B0B0B0;
+  --color-text-muted: #777777;
+
+  /*  Estados */
+  --color-error: #D64545;
+  --color-success: #4CAF50;
+  --color-warning: #FF9800;
+}
