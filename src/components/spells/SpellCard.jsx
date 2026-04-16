@@ -1,5 +1,7 @@
 import './SpellCard.css';
 import { useState } from 'react';
+import { Loader } from '../shares/loading';
+import { useGrimorio } from '../hooks/useGrimorio';
 
 // Extraemos la tarjeta a su propio componente para que el Dashboard quede limpio
 export default function SpellCard({ nombre, nivel, url}) {
@@ -8,6 +10,8 @@ export default function SpellCard({ nombre, nivel, url}) {
     const [expandido, setExpandido] = useState(false);
     const [cargando, setEstaCargando] = useState(false);
     const [detalles, setDetalles] = useState(false);
+    const {agregarHechizo} = useGrimorio();
+
     const manejarTap = async () => {
         if (expandido) {
             setExpandido(false);
@@ -52,7 +56,8 @@ export default function SpellCard({ nombre, nivel, url}) {
           
           {/* Pantalla de carga mientras trae el JSON */}
           {cargando ? (
-            <p className="texto-secundario">Traduciendo runas arcanas...</p>
+            <Loader message= "Consultando el grimorio..."></Loader>
+            
           ) : (
             /* Una vez que tenemos los detalles, los dibujamos */
             detalles && (
@@ -71,6 +76,7 @@ export default function SpellCard({ nombre, nivel, url}) {
                   className="btn-agregar"
                   onClick={(e) => {
                     e.stopPropagation(); // Evita que la tarjeta se cierre al hacer clic acá
+                    agregarHechizo({nombre, nivel, url});
                     alert(`¡${nombre} añadido a tu Grimorio!`);
                   }}
                 ><i className="animation"></i>
