@@ -2,19 +2,55 @@ import React, {useState, useEffect} from "react";
 import {Loader} from '../shares/loading';
 import './ClassCarousel.css';
 
-const IMAGENES_CLASES = {
-    barbarian: 'https://i.pinimg.com/736x/15/f7/6a/15f76ae48b1067ed91c96393d2dd2327.jpg',
-    bard: 'https://i.pinimg.com/736x/99/f2/d2/99f2d264cac3b963038aec4853bf5bc5.jpg',
-    cleric: 'https://i.pinimg.com/1200x/42/2f/0a/422f0a933e581ad0b022049d1b6f3412.jpg',
-    druid: 'https://i.pinimg.com/736x/5a/55/c5/5a55c5e070c6805a92ae67d5097a62bd.jpg',
-    fighter: 'https://i.pinimg.com/736x/b4/72/bb/b472bba4bc086094204a2dd98c055714.jpg',
-    monk: 'https://i.pinimg.com/736x/55/4a/89/554a8999ceb42a8c733fb0ed6cf35db9.jpg',
-    paladin: 'https://i.pinimg.com/webp70/1200x/5e/97/ee/5e97ee14ac4f09e06c4fa661e5f0e530.webp',
-    ranger: 'https://i.pinimg.com/1200x/94/3b/f1/943bf1b79dcab3d2b529e904c15a76c9.jpg',
-    rogue: 'https://i.pinimg.com/736x/ba/bb/c5/babbc59a56b9787ea2066fd33d0309b0.jpg',
-    sorcerer: 'https://i.pinimg.com/736x/58/da/24/58da24080a1287ca4a7a2c0549702670.jpg',
-    warlock: 'https://i.pinimg.com/736x/ab/3e/a3/ab3ea3ec155a89a133d449ad5e311367.jpg',
-    wizard: 'https://i.pinimg.com/736x/6d/ef/3f/6def3f7143f8abe39e2bcb394e80b6d9.jpg'
+const INFO_CLASES = {
+barbarian: { 
+        img: 'https://i.pinimg.com/736x/15/f7/6a/15f76ae48b1067ed91c96393d2dd2327.jpg', 
+        desc: 'El feroz guerrero primitivo' 
+    },
+    bard: { 
+        img: 'https://i.pinimg.com/736x/99/f2/d2/99f2d264cac3b963038aec4853bf5bc5.jpg', 
+        desc: 'Un artista mágico elocuente.' 
+    },
+    cleric: { 
+        img: 'https://i.pinimg.com/1200x/42/2f/0a/422f0a933e581ad0b022049d1b6f3412.jpg', 
+        desc: 'El campeón sacerdotal' 
+    },
+    druid: { 
+        img: 'https://i.pinimg.com/736x/5a/55/c5/5a55c5e070c6805a92ae67d5097a62bd.jpg', 
+        desc: 'El guardián de la naturaleza.' 
+    },
+    fighter: { 
+        img: 'https://i.pinimg.com/736x/b4/72/bb/b472bba4bc086094204a2dd98c055714.jpg', 
+        desc: 'El maestro del combate' 
+    },
+    monk: { 
+        img: 'https://i.pinimg.com/736x/55/4a/89/554a8999ceb42a8c733fb0ed6cf35db9.jpg', 
+        desc: 'El artista marcial' 
+    },
+    paladin: { 
+        img: 'https://i.pinimg.com/webp70/1200x/5e/97/ee/5e97ee14ac4f09e06c4fa661e5f0e530.webp', 
+        desc: 'El guerrero sagrado ' 
+    },
+    ranger: { 
+        img: 'https://i.pinimg.com/1200x/94/3b/f1/943bf1b79dcab3d2b529e904c15a76c9.jpg', 
+        desc: 'El rastreador y cazador' 
+    },
+    rogue: { 
+        img: 'https://i.pinimg.com/736x/ba/bb/c5/babbc59a56b9787ea2066fd33d0309b0.jpg', 
+        desc: 'El rufian sigiloso' 
+    },
+    sorcerer: { 
+        img: 'https://i.pinimg.com/736x/58/da/24/58da24080a1287ca4a7a2c0549702670.jpg', 
+        desc: 'El conjurador innato' 
+    },
+    warlock: { 
+        img: 'https://i.pinimg.com/736x/ab/3e/a3/ab3ea3ec155a89a133d449ad5e311367.jpg', 
+        desc: 'El mistico bajo pacto' 
+    },
+    wizard: { 
+        img: 'https://i.pinimg.com/736x/6d/ef/3f/6def3f7143f8abe39e2bcb394e80b6d9.jpg', 
+        desc: 'El erudito de la magia' 
+    }
 };
 
 export default function ClassCarousel({onClaseSeleccionada}) {
@@ -85,38 +121,46 @@ export default function ClassCarousel({onClaseSeleccionada}) {
             <h2 className="carousel.title">Elige tu Clase</h2>
             <div className="slider-container">
                 {clases.map((clase, index) => (
-                    <div
+                    <div 
                         key={clase.index} 
-                        className="pokemon-card" 
+                        className="dnd-tab-card" 
                         style={calcularEstilosTarjeta(index)}
                         onClick={() => setActiveIndex(index)}
                     >
-                        {/* IMAGEN DE LA CARTA */}
-                        <div className="card-image-container">
-                            {/* Si no encuentra la imagen, pone un div gris de fallback */}
-                            <img 
-                                src={IMAGENES_CLASES[clase.index] || 'https://via.placeholder.com/250x150/2c3e50/ffffff?text=???'} 
-                                alt={clase.name} 
-                                className="card-image"
-                            />
+                        {/* SECCIÓN SUPERIOR: Imagen con el recorte */}
+                        <div 
+                            className="top-section" 
+                            style={{ 
+                                backgroundImage: `url(${INFO_CLASES[clase.index]?.img || 'https://via.placeholder.com/250'})`,
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'top center'
+                            }}
+                        >
+                            <div className="border" />
+                            {/* Iconos de redes sociales eliminados */}
                         </div>
 
-                        <div className="card-body">
-                            <h3 className="card-name">{clase.name}</h3>
+                        {/* SECCIÓN INFERIOR: Stats y Textos */}
+                        <div className="bottom-section">
+                            <span className="title">{clase.name}</span>
+                            
+                            <p className="card-description">
+                                {INFO_CLASES[clase.index]?.desc || "Una misteriosa clase de la que poco se sabe..."}
+                            </p>
 
-                            <div className="card-stats">
-                                <div className="stat-row">
-                                    <span className="stat-label">Dado de Golpe:</span>
-                                    <span className="stat-value">d{clase.hit_die}</span>
+                            <div className="row row1">
+                                <div className="item">
+                                    <span className="big-text">d{clase.hit_die}</span>
+                                    <span className="regular-text">Dado de Golpe</span>
                                 </div>
-                                <div className="stat-row">
-                                    <span className="stat-label">Salvaciones:</span>
-                                    <span className="stat-value">
+                                <div className="item">
+                                    <span className="big-text">
                                         {clase.saving_throws.map(st => st.name).join(', ')}
                                     </span>
+                                    <span className="regular-text">Salvaciones</span>
                                 </div>
                             </div>
-                        </div>    
+                        </div>
                     </div>
                 ))}
             </div>
