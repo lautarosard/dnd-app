@@ -1,0 +1,114 @@
+.carousel-wrapper {
+    animation: fadeIn 0.5s ease-in-out;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.carousel-title {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #f39c12;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 450px; /* Más alto para acomodar el formato de carta */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+/* LA CARTA ESTILO POKÉMON */
+.pokemon-card {
+    position: absolute;
+    width: 260px; 
+    height: 380px;
+    background-color: #1a1a1a;
+    border-radius: 15px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: pointer;
+    border: 4px solid #34495e;
+}
+
+.pokemon-card[style*="zIndex: 10"] {
+    border-color: #f39c12;
+    box-shadow: 0 0 30px rgba(243, 156, 18, 0.5);
+}
+
+/* LA IMAGEN (Top Half) */
+.card-image-container {
+    width: 100%;
+    height: 50%;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    border-bottom: 3px solid #2c3e50;
+    background-color: #2c3e50; /* Fallback color */
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+}
+
+/* LOS STATS (Bottom Half) */
+.card-body {
+    padding: 15px 5px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-name {
+    margin: 0 0 15px 0;
+    color: white;
+    font-size: 1.6rem;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.card-stats {
+    background-color: #222;
+    border-radius: 6px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px solid #34495e;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.stat-label {
+    color: #95a5a6;
+    font-weight: 600;
+}
+
+.stat-value {
+    color: #f39c12;
+    font-weight: bold;
+}
+
+.slider-controles {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}

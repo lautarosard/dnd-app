@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Loader } from '../shares/loading';
 import { useCharacter } from '../hooks/useCharacter';
 import './CharacterBuilder.css';
+import ClassCarousel from "./ClassCarousel";
 
 
 export default function CharacterBuilder(){
@@ -11,6 +12,8 @@ export default function CharacterBuilder(){
     const [nivel, setNivel] = useState(''); 
 
     const {actualizarPersonaje} = useCharacter();
+
+    const [paso, setPaso] = useState(1);
     
     const [matrizClase, setMatrizClase] = useState([]);
     const [cargandoClase, setCargandoClase] = useState(false);
@@ -62,6 +65,12 @@ export default function CharacterBuilder(){
         };
         fetchClassLevels();
     }, [clase]);
+
+    const manejarClaseSeleccionada = (claseIndex) => {
+        setClase(claseIndex);
+        setPaso(2);
+    };
+
     const manejarGuardado = (e) => {
         e.preventDefault(); //que no se recargue la pagina por dios
         if (!nombre || !clase || !nivel) {
@@ -96,6 +105,51 @@ export default function CharacterBuilder(){
         alert(`¡${nombre} nivel ${nivel} registrado en el Grimorio!`);
     };
 
+    return (
+        <div className="character-builder-container">
+            {paso === 1 && (
+                <ClassCarousel onClaseSeleccionada={manejarClaseSeleccionada} />
+            )}
+
+            {paso === 2 && (
+                <div className="paso-animado" style={{ animation: 'fadeIn 0.5s' }}>
+                    <button onClick={() => setPaso(1)} style={{ background: 'none', border: 'none', color: '#95a5a6', cursor: 'pointer', marginBottom: '20px' }}>
+                        ← Cambiar Clase
+                    </button>
+                    
+                    <h2>Forjar Personaje</h2>
+                    <p style={{ textTransform: 'capitalize' }}>Clase seleccionada: <strong>{clase}</strong></p>
+
+                    <form onSubmit={manejarGuardado} className="form-personaje">
+                        <div className="form-grupo">
+                            <label>Nombre del Aventurero</label>
+                            <input 
+                                type="text" value={nombre} 
+                                onChange={(e) => setNombre(e.target.value)} 
+                                placeholder="Ej: Eldor el Sabio" className="input-buscador" 
+                            />
+                        </div>
+
+                        {cargandoClase ? (<Loader message="Consultando tomos..."/>) : (
+                            <div className="form-grupo">
+                                <label>Nivel Total</label>
+                                <input 
+                                    type="number" min="1" max="20" value={nivel} 
+                                    onChange={(e) => setNivel(e.target.value)} 
+                                    placeholder="Nivel (1 - 20)" className="input-buscador"
+                                />
+                            </div>
+                        )}
+
+                        <button type="submit" className="btn-agregar" style={{ marginTop: '15px', width: '100%' }} disabled={cargandoClase}>
+                            Concluir Creación
+                        </button>
+                    </form>
+                </div>
+            )}
+        </div>
+    );
+    /*
     return(
         <div className="character-builder-container">
             <h2>Forjar Personaje</h2>
@@ -158,5 +212,6 @@ export default function CharacterBuilder(){
             </form>
 
         </div>
-    );
+    );¨
+    */
 }
