@@ -1,8 +1,11 @@
 import React from "react";
 import CharacterBuilder from "../components/Character/CharacterBuilder";
 import { Link } from "react-router-dom";
+import CharacterDashboard from "../components/Character/CharacterDashboard";
+import { useCharacter } from "../components/hooks/useCharacter";
 
 export default function ForjaPersonaje() {
+    const {estaConfigurado} = useCharacter();
     return(
         <main style={{ padding: '20px', minHeight: '100dvh', backgroundColor: '#1a1a1a', color: 'white' }}>
             <div style={{ marginBottom: '20px' }}>
@@ -10,7 +13,7 @@ export default function ForjaPersonaje() {
                     Volver al Grimorio
                 </Link>
             </div>
-            <CharacterBuilder />
+            {estaConfigurado ? (<CharacterDashboard />) : (<CharacterBuilder />)}
         </main>
     );
 }
