@@ -1,0 +1,74 @@
+/* Contenedor principal */
+.character-builder-container {
+    background-color: #222222; /* Un tono apenas más claro que el fondo principal */
+    border: 1px solid #34495e;
+    border-radius: 8px;
+    padding: 20px;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
+
+.character-builder-container h2 {
+    margin-top: 0;
+    color: #f39c12; /* Naranja arcano */
+    margin-bottom: 5px;
+}
+
+.character-builder-container p {
+    color: #95a5a6;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+/* Layout del formulario */
+.form-personaje {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Separación uniforme entre campos */
+}
+
+.form-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-grupo label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #bdc3c7;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Si el input está deshabilitado (ej. cuando carga la API o no hay clase) */
+.input-buscador:disabled,
+.select-nivel:disabled {
+    background-color: #1a1a1a;
+    color: #7f8c8d;
+    cursor: not-allowed;
+    border-color: #2c3e50;
+}
+
+/* Responsive: En tablets o monitores, ponemos los campos en fila */
+@media (min-width: 768px) {
+    .form-personaje {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-end; /* Alinea los inputs con los selects hacia abajo */
+    }
+
+    .form-grupo {
+        flex: 1; /* Hacemos que todos los campos tomen el mismo ancho */
+        min-width: 200px; /* Evita que se aplasten demasiado */
+    }
+
+    /* El botón toma su propio ancho en escritorio para no verse gigante */
+    .btn-agregar {
+        width: auto !important;
+        margin-top: 0 !important;
+        height: 42px; /* Alinea la altura del botón con los inputs */
+    }
+}

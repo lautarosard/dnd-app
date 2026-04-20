@@ -24,7 +24,12 @@
   color: var(--color-text-secondary);
   margin-bottom: 20px;
 }
-
+.hero-buttons-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
 .hero-button {
   background-color: var(--color-primary);
   color: white;
@@ -37,3 +42,5 @@
 .hero-button:hover {
   background-color: var(--color-primary-dark);
 }
+
+
