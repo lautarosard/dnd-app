@@ -103,7 +103,7 @@ export default function CharacterDashboard() {
             </div>
             
             <div id="seccion-grimorio">
-                <MiGrimorio />
+                <MiGrimorio modoPersonaje={true}/>
             </div>
         </div>
     </div>

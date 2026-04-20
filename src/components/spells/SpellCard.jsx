@@ -2,15 +2,18 @@ import './SpellCard.css';
 import { useState } from 'react';
 import { Loader } from '../shares/loading';
 import { useGrimorio } from '../hooks/useGrimorio';
+import { useCharacter } from '../hooks/useCharacter';
 
 // Extraemos la tarjeta a su propio componente para que el Dashboard quede limpio
-export default function SpellCard({ nombre, nivel, url}) {
+export default function SpellCard({ hechizo, nombre, nivel, url, modoPersonaje}) {
   // Acá podés poner lógica extra en el futuro, como determinar 
   // la escuela de magia para cambiarle el color dinámicamente
     const [expandido, setExpandido] = useState(false);
     const [cargando, setEstaCargando] = useState(false);
     const [detalles, setDetalles] = useState(false);
-    const {agregarHechizo} = useGrimorio();
+
+    const {agregarHechizo: agregarAlGrimorioGeneral} = useGrimorio();
+    const {aprenderHechizo: agregarAlPersonaje} = useCharacter();
 
     const manejarTap = async () => {
         if (expandido) {
@@ -38,6 +41,16 @@ export default function SpellCard({ nombre, nivel, url}) {
             setEstaCargando(false);
         }
     }
+    const manejarClickAgregar = (e) => {
+      e.stopPropagation();
+
+      if (modoPersonaje) {
+        agregarAlPersonaje(hechizo);
+      } else {
+        agregarAlGrimorioGeneral({nombre, nivel, url});
+        alert(`¡${nombre} añadido al Grimorio Global!`);
+      }
+    };
   return (
     <div className={`tarjeta-hechizo ${expandido ? 'abierta' : ''}`} onClick={manejarTap}>
       <div className="tarjeta-cabecera">
@@ -74,13 +87,10 @@ export default function SpellCard({ nombre, nivel, url}) {
                 {/* El botón para tu Grimorio (Para que no se active el tap de la tarjeta al tocar el botón, usamos e.stopPropagation()) */}
                 <button 
                   className="btn-agregar"
-                  onClick={(e) => {
-                    e.stopPropagation(); // Evita que la tarjeta se cierre al hacer clic acá
-                    agregarHechizo({nombre, nivel, url});
-                    alert(`¡${nombre} añadido a tu Grimorio!`);
-                  }}
-                ><i className="animation"></i>
-                  Añadir al Grimorio
+                  onClick={manejarClickAgregar}
+                >
+                  <i className="animation"></i>
+                  {modoPersonaje ? "Aprender Hechizo" : "Añadir al Grimorio"}
                   <i className="animation"></i>
                 </button>
               </div>
