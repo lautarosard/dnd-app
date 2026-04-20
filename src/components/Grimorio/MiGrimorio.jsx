@@ -5,7 +5,7 @@ import { useCharacter } from "../hooks/useCharacter";
 
 export default function MiGrimorio({modoPersonaje = false}) {
     const {hechizosGuardados, eliminarHechizo} = useGrimorio();
-    const {personaje, olvidarHechizo} = useCharacter();
+    const {personaje, olvidarHechizo, lanzarHechizo} = useCharacter();
 
     const listaHechizos = modoPersonaje ? personaje.hechizos : hechizosGuardados;
 
@@ -36,6 +36,16 @@ export default function MiGrimorio({modoPersonaje = false}) {
                     const nivelMostrar = modoPersonaje ? hechizo.level : hechizo.nivel;
                     const keyUnica = modoPersonaje ? hechizo.index : hechizo.url;
 
+                    const esTruco = nivelMostrar === 0;
+                    let puedeLanzar = true;
+
+                    if (modoPersonaje && !esTruco){
+                        const indice = nivelMostrar -1;
+                        const maximos = personaje.recursos.slots[indice];
+                        const gastados = personaje.slotsGastados[indice];
+                        puedeLanzar = gastados < maximos; //solo puede lanzar si gastó menos que el máximo
+                    }
+
                     return (
                         <li key={keyUnica} className="hechizo-item">
                             <div className="hechizo-info">
@@ -43,6 +53,18 @@ export default function MiGrimorio({modoPersonaje = false}) {
                                 <span className="medalla-nivel">
                                     {nivelMostrar === 0 ? "Truco" : `Nivel ${nivelMostrar}`}
                                 </span>
+                            </div>
+
+                            <div className="hechizo-acciones">
+                                {modoPersonaje && (
+                                    <button
+                                        onClick={() => lanzarHechizo(nivelMostrar)}
+                                        disabled= {!puedeLanzar}
+                                        className="btn-lanzar"
+                                    >
+                                        {esTruco ? 'Usar' : 'Lanzar'}
+                                    </button>
+                                )}
                             </div>
                             
                             {/* Pasamos el objeto completo a la función para que ella decida qué extraer */}

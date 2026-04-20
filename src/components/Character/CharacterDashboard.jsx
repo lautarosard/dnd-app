@@ -6,7 +6,7 @@ import './CharacterDashboard.css'
 import { useState } from "react";
 
 export default function CharacterDashboard() {
-    const {personaje, borrarPersonaje, actualizarPersonaje} = useCharacter();
+    const {personaje, borrarPersonaje, actualizarPersonaje, descansoLargo} = useCharacter();
 
     const [cargandoNivel, setCargandoNivel] = useState(false);
 
@@ -85,6 +85,44 @@ export default function CharacterDashboard() {
                         </div>
                     )}
                 </div>
+
+                {/*ZONA DE SPELL SLOTS */}
+                {personaje.recursos && (
+                    <div className="spell-slots-container">
+                        <h4 className="spell-slots-title">Espacios de Conjuro</h4>
+                            
+                            {/* Mapeamos los 9 niveles de magia */}
+                            {personaje.recursos.slots.map((maximo, index) => {
+                                if (maximo === 0) return null; // Si no tiene magia de nivel X, no la dibujamos
+                                
+                                const nivelSlot = index + 1;
+                                const gastados = personaje.slotsGastados[index];
+                                
+                                
+                                const circulitos = [];
+                                for (let i = 0; i < maximo; i++) {
+                                    const estaLleno = i >= gastados; 
+                                    circulitos.push(
+                                        <span 
+                                            key={i} 
+                                            className={`spell-slot-circle ${estaLleno ? 'spell-slot-full' : 'spell-slot-empty'}`}
+                                        ></span>
+                                    );
+                                }
+
+                                return (
+                                    <div key={index} className="spell-level-row">
+                                        <span className="spell-level-label">Nivel {nivelSlot}</span>
+                                        <div>{circulitos}</div>
+                                    </div>
+                                );
+                            })}
+                            
+                            <button onClick={descansoLargo} className="btn-descanso-largo">
+                                Descanso Largo
+                            </button>
+                    </div>
+                )}
             </div>
             
             <button 

@@ -6,12 +6,22 @@ export function CharacterProvider({children}) {
     const [personaje, setPersonaje] = useState(() => {
         try {
             const guardado = localStorage.getItem('pocket_character');
-            return guardado ? JSON.parse(guardado) : {nombre: '', clase: '', nivel: '', recursos: null, hechizos: []};
+            if (guardado) {
+                const pj = JSON.parse(guardado);
+                return {
+                    ...pj,
+                    hechizos: pj.hechizos || [],
+                    // MAGIA DE MIGRACIÓN: Si el personaje es viejo, le inyectamos los slots vacíos
+                    slotsGastados: pj.slotsGastados || [0,0,0,0,0,0,0,0,0] 
+                };
+            }
+            return { nombre: '', clase: '', nivel: '', recursos: null, hechizos: [], slotsGastados: [0,0,0,0,0,0,0,0,0] };
         } catch (error) {
             console.error("Error leyendo el personaje:", error);
-            return {nombre: '', clase: '', nivel: '', recursos: null, hechizos: []};
+            return { nombre: '', clase: '', nivel: '', recursos: null, hechizos: [], slotsGastados: [0,0,0,0,0,0,0,0,0] };
         }
     });
+
     useEffect(() => {
         localStorage.setItem('pocket_character', JSON.stringify(personaje));
     }, [personaje]);
@@ -49,6 +59,22 @@ export function CharacterProvider({children}) {
             hechizos: prev.hechizos.filter(h => h.index !== hechizoIndex)
         }));
     };
+
+    const lanzarHechizo = (nivelHechizo) => {
+        if (nivelHechizo === 0) return; //los trucos no gastan slots
+
+        const indice = nivelHechizo -1;
+        setPersonaje(prev => {
+            const nuevosGastados = [...prev.slotsGastados];
+            nuevosGastados[indice] += 1; //Aumentamos el contador de gastados
+            return {...prev, slotsGastados: nuevosGastados};
+        });
+    };
+
+    const descansoLargo = () => {
+        setPersonaje(prev => ({...prev, slotsGastados: [0,0,0,0,0,0,0,0,0]}));
+        alert("El descanso te ha devuelto tu vitalidad mágica.");
+    };
     
     const value = {
         personaje,
@@ -56,6 +82,8 @@ export function CharacterProvider({children}) {
         borrarPersonaje,
         aprenderHechizo,
         olvidarHechizo,
+        lanzarHechizo,
+        descansoLargo,
         estaConfigurado: !!personaje.clase
     };
     return (

@@ -146,6 +146,39 @@
   box-shadow: 0 0 10px rgba(231, 76, 60, 0.4); /* Resplandor rojo sutil */
 }
 
+/* Aseguramos que el layout de cada item del grimorio sea flex */
+.hechizo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Contenedor para los botones de la derecha (Lanzar y Olvidar) */
+.hechizo-acciones {
+    display: flex;
+    gap: 10px;
+}
+
+/* Botón de Lanzar Hechizo */
+.btn-lanzar {
+    padding: 5px 10px;
+    background-color: #8e44ad; /* Color base (activo) */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-lanzar:hover:not(:disabled) {
+    background-color: #9b59b6; /* Un tono más claro al pasar el mouse */
+}
+
+/* Estado cuando no quedan spell slots */
+.btn-lanzar:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
 /* =========================================
    MEDIA QUERIES (Pantallas más grandes)
    ========================================= */
