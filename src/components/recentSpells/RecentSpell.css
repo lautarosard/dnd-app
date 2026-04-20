@@ -1,0 +1,21 @@
+.recent {
+  padding: 20px;
+}
+
+.recent-title {
+  margin-bottom: 12px;
+  color: var(--color-text-primary);
+}
+
+.recent-list {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.recent-card {
+  background-color: var(--color-card);
+  padding: 10px;
+  border-radius: 8px;
+  min-width: 120px;
+}

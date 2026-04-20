@@ -1,0 +1,104 @@
+/* =========================================
+   Contenedor Principal del Dashboard
+   ========================================= */
+
+
+
+.dashboard-arcano {
+  min-height: 100dvh;
+  background-color: #1a1a1a;
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  /* Nos aseguramos de que el dashboard no crezca infinitamente hacia abajo */
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+
+
+/* =========================================
+   SCROLL INTERNO
+   ========================================= */
+
+.contenedor-lista {
+  display: grid;
+  gap: 15px;
+  max-height: 60vh; 
+  
+  overflow-y: auto; 
+  
+  padding-right: 10px; 
+  background-color: #222222; 
+  border: 1px solid #34495e; 
+  border-radius: 8px;        
+  padding: 15px;
+}
+
+
+.contenedor-lista::-webkit-scrollbar {
+  width: 8px; /* Ancho de la barra vertical */
+}
+
+.contenedor-lista::-webkit-scrollbar-track {
+  background: #1a1a1a; /* Color del fondo de la pista */
+  border-radius: 4px;
+}
+
+.contenedor-lista::-webkit-scrollbar-thumb {
+  background: #f39c12; /* El color de la barrita que se mueve (Naranja) */
+  border-radius: 4px;
+}
+
+.contenedor-lista::-webkit-scrollbar-thumb:hover {
+  background: #e67e22; /* Color al pasar el mouse por encima */
+}
+
+
+/* =========================================
+   FILTROS Y BUSCADOR
+   ========================================= */
+
+.zona-filtros {
+  display: flex;
+  flex-direction: column; /* Apilado en móviles */
+  gap: 15px; /* Espacio entre el input y el select */
+  margin-bottom: 20px;
+}
+
+.input-buscador, .select-nivel {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #34495e;
+  background-color: #2c3e50;
+  color: white;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+.input-buscador::placeholder {
+  color: #95a5a6;
+}
+.input-buscador {
+  width: 100%; /* Ocupa todo el ancho, pero ahora respetando el borde del padre */
+}
+.select-nivel {
+  width: fit-content; 
+  
+  cursor: pointer;
+  appearance: none; 
+  background-repeat: no-repeat;
+  background-position: right 15px top 50%;
+  background-size: 12px auto;
+  
+  /* Le damos un padding derecho más grande para que la flechita no pise el texto */
+  padding-right: 40px; 
+}
+.texto-vacio {
+  color: #95a5a6;
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+}

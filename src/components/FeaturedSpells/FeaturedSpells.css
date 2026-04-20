@@ -1,0 +1,19 @@
+.featured-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.featured-list {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+}
+
+.featured-card {
+  min-width: 140px;
+  background-color: var(--color-card);
+  padding: 12px;
+  border-radius: 8px;
+}

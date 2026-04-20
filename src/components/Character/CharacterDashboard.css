@@ -1,0 +1,154 @@
+/* Contenedor principal */
+.character-dashboard-container {
+    padding: 20px;
+}
+
+/* Cabecera del personaje */
+.character-header {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border-left: 4px solid #f39c12;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.character-header h2 {
+    color: #f39c12;
+    margin: 0 0 5px 0;
+}
+
+/* Fila de info (Clase, Nivel y controles) */
+.character-info-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.character-info-row p {
+    margin: 0;
+    color: #bdc3c7;
+    text-transform: capitalize;
+}
+
+/* Texto de carga al actualizar nivel */
+.loading-level-text {
+    font-size: 0.85rem;
+    color: #f39c12;
+    font-style: italic;
+}
+
+/* Contenedor de los botones + y - */
+.level-controls {
+    display: flex;
+    gap: 5px;
+}
+
+/* Botones de nivel */
+.btn-nivel {
+    background-color: #2c3e50;
+    color: white;
+    border: 1px solid #34495e;
+    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-nivel:hover:not(:disabled) {
+    background-color: #34495e; 
+}
+
+.btn-nivel:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Botón de jubilar */
+.btn-jubilar {
+    background-color: #c0392b;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.btn-jubilar:hover {
+    background-color: #a93226;
+}
+
+/* Títulos de secciones */
+#seccion-hechizos h3 {
+    color: white;
+    margin-bottom: 15px;
+}
+/* --- ZONA DE SPELL SLOTS --- */
+
+.spell-slots-container {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #111;
+    border-radius: 8px;
+}
+
+.spell-slots-title {
+    color: #f39c12;
+    margin: 0 0 10px 0;
+    font-size: 0.9rem;
+}
+
+.spell-level-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.spell-level-label {
+    width: 65px;
+    font-size: 0.85rem;
+    color: #bdc3c7;
+}
+
+/* Circulitos de magia (Base y Estados) */
+.spell-slot-circle {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #3498db;
+    margin-right: 5px;
+}
+
+.spell-slot-full {
+    background-color: #3498db;
+}
+
+.spell-slot-empty {
+    background-color: transparent;
+}
+
+/* Botón de Descanso Largo */
+.btn-descanso-largo {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-descanso-largo:hover {
+    background-color: #2ecc71;
+}

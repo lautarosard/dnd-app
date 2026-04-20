@@ -1,23 +1,35 @@
-import { Routes, Route } from "react-router-dom";
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import { CharacterProvider } from "./components/hooks/useCharacter";
+import { GrimorioProvider } from "./components/hooks/useGrimorio";
+
 
 import Home from "./pages/Home";
+import ForjaPersonaje from "./pages/ForjaPersonaje"; 
 import Search from "./pages/Search";
 import Detail from "./pages/Detail";
 import Wishlist from "./pages/Wishlist";
 import History from "./pages/History";
 import Contact from "./pages/Contact";
 
-function App() {
+
+const router = createBrowserRouter([
+  { path: "/", element: <Home /> },
+  { path: "/forja", element: <ForjaPersonaje /> },
+  { path: "/search", element: <Search /> },
+  { path: "/detail/:id", element: <Detail /> },
+  { path: "/wishlist", element: <Wishlist /> },
+  { path: "/history", element: <History /> },
+  { path: "/contact", element: <Contact /> },
+]);
+
+export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/search" element={<Search />} />
-      <Route path="/detail/:id" element={<Detail />} />
-      <Route path="/wishlist" element={<Wishlist />} />
-      <Route path="/history" element={<History />} />
-      <Route path="/contact" element={<Contact />} />
-    </Routes>
+    <CharacterProvider>
+      <GrimorioProvider>
+        <RouterProvider router={router} />
+      </GrimorioProvider>
+    </CharacterProvider>
   );
 }
-
-export default App;
