@@ -16,6 +16,18 @@ function Home() {
     <main className="home">
 
       <Hero />
+      {/* --- NUEVA SECCIÓN: TU HÉROE --- */}
+      {estaConfigurado && (
+        <section className="home-section hero-home-section" style={{ marginBottom: '40px' }}>
+          <div className="section-header">
+            <h2>Tu Personaje</h2>
+            <span onClick={() => navigate("/forja")}>Ir a la Forja →</span>
+          </div>
+          <div onClick={() => navigate("/forja")} style={{ cursor: 'pointer' }}>
+            <CharacterCard />
+          </div>
+        </section>
+      )}
 
       {/* VISTOS RECIENTEMENTE*/}
 
@@ -50,18 +62,7 @@ function Home() {
         <MiGrimorio preview />
       </section>
 
-      {/* --- NUEVA SECCIÓN: TU HÉROE --- */}
-      {estaConfigurado && (
-        <section className="home-section hero-home-section" style={{ marginBottom: '40px' }}>
-          <div className="section-header">
-            <h2>Tu Personaje</h2>
-            <span onClick={() => navigate("/forja")}>Ir a la Forja →</span>
-          </div>
-          <div onClick={() => navigate("/forja")} style={{ cursor: 'pointer' }}>
-            <CharacterCard />
-          </div>
-        </section>
-      )}
+      
     </main>
   );
 }

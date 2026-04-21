@@ -95,7 +95,7 @@ export default function CharacterDashboard() {
                 if (maximo === 0) return null; // Si no tiene magia de nivel X, no la dibujamos
 
                 const nivelSlot = index + 1;
-                const gastados = personaje.slotsGastados[index];
+                const gastados = personaje.slotsGastados[index] || 0;
 
 
                 const circulitos = [];

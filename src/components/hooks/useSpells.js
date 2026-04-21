@@ -15,6 +15,7 @@ export function useSpells() {
                         name
                         level
                         school {
+                            index
                             name
                         }
                         classes {
