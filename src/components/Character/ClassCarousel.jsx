@@ -57,6 +57,9 @@ export default function ClassCarousel({onClaseSeleccionada}) {
     const [clases, setClases] = useState([]);
     const [cargando, setCargando] = useState(true);
     const [activeIndex, setActiveIndex] = useState(0);
+    const [touchStart, setTouchStart] = useState(null);
+    const [touchEnd, setTouchEnd] = useState(null);
+    const [swipeOffset, setSwipeOffset] = useState(0);
 
     useEffect(() => {
         const fetchClasses = async () => {
@@ -96,30 +99,91 @@ export default function ClassCarousel({onClaseSeleccionada}) {
     const nextSlide = () => setActiveIndex(prev => (prev + 1 < clases.length ? prev +1 : prev));
     const prevSlide = () => setActiveIndex(prev => (prev - 1 >= 0 ? prev -1 : prev));
 
+    //logica del swipe
+    const minSwipeDistance = 50;
+
+    const onTouchStart = (e) => {
+        setTouchEnd(null);
+        setTouchStart(e.targetTouches[0].clientX);
+        setSwipeOffset(0);
+    };
+
+    const onTouchMove = (e) => {
+        const currentTouch = e.targetTouches[0].clientX;
+        setTouchEnd(currentTouch);
+        
+        // Calculamos en vivo cuántos píxeles se movió el dedo respecto al inicio
+        if (touchStart) {
+            setSwipeOffset(currentTouch - touchStart);
+        }
+    };
+
+    const onTouchEnd = (e) => {
+        if (!touchStart || !touchEnd) {
+            setSwipeOffset(0); // Si fue solo un tap, reseteamos
+            return;
+        }
+
+        const distance = touchStart - touchEnd;
+        const isLeftSwipe = distance > minSwipeDistance;
+        const isRightSwipe = distance < -minSwipeDistance;
+
+        // Avanzamos o retrocedemos (con validación para no salirnos de los límites)
+        if (isLeftSwipe && activeIndex < clases.length - 1) {
+            nextSlide();
+        } 
+        if (isRightSwipe && activeIndex > 0) {
+            prevSlide();
+        }
+
+        
+        setTouchStart(null);
+        setTouchEnd(null);
+        setSwipeOffset(0);
+    };
+
     const calcularEstilosTarjeta = (index) => {
+        const transicionDinamica = swipeOffset !== 0 ? 'none' : 'all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
         const dif = index - activeIndex;
-        if (dif === 0) return { transform: 'none', zIndex: 10, filter: 'none', opacity: 1 };
+        if (dif === 0){
+            return {
+                transform: `translateX(${swipeOffset}px)`, 
+           //     transform: 'none', el viejo transform
+                zIndex: 10, 
+                filter: 'none', 
+                opacity: 1,
+                transition: transicionDinamica 
+            };
+        } 
         if (dif > 0) {
             return {
-                transform: `translateX(${140 * dif}px) scale(${1 - 0.2 * dif}) perspective(16px) rotateY(-1deg)`,
+                transform: `translateX(${(140 * dif) + swipeOffset}px) scale(${1 - 0.2 * dif}) perspective(16px) rotateY(-1deg)`,
+        //        transform: `translateX(${140 * dif}px) scale(${1 - 0.2 * dif}) perspective(16px) rotateY(-1deg)`, el viejo transform
                 zIndex: 10 - dif, 
                 filter: 'blur(3px)', 
-                opacity: dif > 2 ? 0 : 1 - (0.3 * dif)
+                opacity: dif > 2 ? 0 : 1 - (0.3 * dif),
+                transition: transicionDinamica
             };
         }
+
         const absDif = Math.abs(dif);
         return {
-            transform: `translateX(${-140 * absDif}px) scale(${1 - 0.2 * absDif}) perspective(16px) rotateY(1deg)`, 
+            transform: `translateX(${(-140 * absDif) + swipeOffset}px) scale(${1 - 0.2 * absDif}) perspective(16px) rotateY(1deg)`,
+      //      transform: `translateX(${-140 * absDif}px) scale(${1 - 0.2 * absDif}) perspective(16px) rotateY(1deg)`, 
             zIndex: 10 - absDif, 
             filter: 'blur(3px)', 
-            opacity: absDif > 2 ? 0 : 1 - (0.3 * absDif)
+            opacity: absDif > 2 ? 0 : 1 - (0.3 * absDif),
+            transition: transicionDinamica
         };
     };
     if (cargando) return <Loader message="Invocando arquetipos..."/>;
+    const leftBtn = "<";
+    const rightBtn = ">";
     return  (
         <div className="carousel-wrapper">
-            <h2 className="carousel.title">Elige tu Clase</h2>
-            <div className="slider-container">
+            <h2 className="carousel-title">Elige tu Clase</h2>
+            <div className="slider-container"
+            onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
                 {clases.map((clase, index) => (
                     <div 
                         key={clase.index} 
@@ -165,15 +229,14 @@ export default function ClassCarousel({onClaseSeleccionada}) {
                 ))}
             </div>
             <div className="slider-controles">
-                <button onClick={prevSlide} className="btn-circular" disabled={activeIndex === 0}>←</button>
+                <button onClick={prevSlide} className="btn-prev" disabled={activeIndex === 0}>{leftBtn}</button>
                 <button
                     onClick={() => onClaseSeleccionada(clases[activeIndex].index)} 
                     className="btn-agregar" 
-                    style={{ width: '250px' }}
                 >
                     Elegir {clases[activeIndex]?.name}
                 </button>
-                <button onClick={nextSlide} className="btn-circular" disabled={activeIndex === clases.length - 1}>→</button>
+                <button onClick={nextSlide} className="btn-next" disabled={activeIndex === clases.length - 1}>{rightBtn}</button>
             </div>
         </div>
     );
