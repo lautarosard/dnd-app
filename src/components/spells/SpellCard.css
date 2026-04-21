@@ -142,3 +142,88 @@ body {
                 0 0 0 80px rgba(255, 0, 0, 0); 
   }
 }
+
+.card-compact {
+  /* En móviles: se ven 2 tarjetas y media para indicar scroll */
+  min-width: 150px;
+  width: 42vw; 
+  height: 110px;
+  background: var(--color-surface); /* Uso de tus variables */
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+  scroll-snap-align: start; /* Para que encaje al deslizar */
+}
+
+.card-compact:hover {
+  border-color: var(--color-primary-light);
+  background: var(--color-card);
+}
+
+.card-compact.compact-expandida {
+  height: auto;
+  min-height: 220px;
+  width: 85vw; /* Se expande casi al ancho total en móvil */
+  z-index: 50;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  border: 1px solid var(--color-gold);
+}
+
+/* Tipografía con variables */
+.card-title {
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  /* Evita que nombres largos rompan la card */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-level {
+  color: var(--color-gold);
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Botones adaptables */
+.acciones {
+  display: flex;
+  flex-direction: column; /* En móvil, uno sobre otro es más fácil de tocar */
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.btn-agregar {
+  background: var(--color-primary);
+  width: 100%;
+  min-width: unset; /* Quitamos el min-width de 200px que rompía el móvil */
+  padding: 12px;
+  justify-content: center;
+}
+
+/* --- MEDIA QUERIES (Escritorio) --- */
+
+@media (min-width: 768px) {
+  .card-compact {
+    width: 200px;
+    min-width: 200px;
+    height: 130px;
+  }
+
+  .card-compact.compact-expandida {
+    width: 350px; /* Tamaño fijo en escritorio */
+  }
+
+  .acciones {
+    flex-direction: row; /* En escritorio vuelven a estar uno al lado del otro */
+    justify-content: space-between;
+  }
+}
