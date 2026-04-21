@@ -1,202 +1,42 @@
-/* =========================================
-   CONTENEDOR PRINCIPAL Y ESTADO VACÍO
-   ========================================= */
-
-.grimorio-container,
-.grimorio-vacio {
-  min-height: 100dvh;
-  background-color: #1a1a1a;
-  padding: 20px;
-  border-radius: 10px;
-  color: white;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Centrado absoluto para cuando no hay hechizos */
-.grimorio-vacio {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.grimorio-vacio h2 {
-  color: #f39c12; /* Naranja arcano para destacar */
-  margin-bottom: 10px;
-  font-size: 1.8rem;
-}
-
-.grimorio-vacio p {
-  color: #95a5a6;
-  font-style: italic;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-/* =========================================
-   CABECERA DEL GRIMORIO LLENO
-   ========================================= */
-
-.grimorio-container h2 {
-  margin-top: 0;
-  margin-bottom: 5px;
-  color: #f39c12;
+.grimorio-seccion {
+  padding: 10px 0;
 }
 
 .contador {
-  color: #bdc3c7;
+  color: var(--color-text-secondary);
   font-size: 0.9rem;
-  margin-top: 0;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #34495e; /* Línea separadora sutil */
+  margin-bottom: 15px;
+  padding-left: 5px;
 }
 
-/* =========================================
-   LISTA Y SCROLL (Igual al Dashboard)
-   ========================================= */
-
-.lista-hechizos {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 15px;
-  
-  max-height: 70vh; 
-  overflow-y: auto;
-  padding-right: 5px;
+/* Si el grimorio está en el Home (preview), quitamos padding extra */
+.modo-preview {
+  margin-top: -10px;
 }
 
-.lista-hechizos::-webkit-scrollbar {
-  width: 8px;
-}
-.lista-hechizos::-webkit-scrollbar-track {
-  background: #1a1a1a;
-  border-radius: 4px;
-}
-.lista-hechizos::-webkit-scrollbar-thumb {
-  background: #f39c12;
-  border-radius: 4px;
+.grimorio-vacio {
+  background-color: var(--color-surface);
+  padding: 40px 20px;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px dashed var(--color-text-muted);
 }
 
-/* =========================================
-   ÍTEM DE HECHIZO (Mobile First)
-   ========================================= */
+.grimorio-vacio h2 {
+  color: var(--color-gold);
+  margin-bottom: 10px;
+}
 
-.hechizo-item {
-  background-color: #2c3e50;
-  border-radius: 8px;
-  padding: 15px;
+/* Ajuste para que el scroll horizontal se vea bien en esta sección */
+.grimorio-seccion .horizontal-scroll {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-left: 4px solid transparent;
-  transition: all 0.3s ease;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 10px 5px 20px 5px;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
 }
 
-.hechizo-item:hover {
-  background-color: #34495e;
-  /* Borde rojo al hacer hover para advertir que es una zona de borrado */
-  border-left: 4px solid #e74c3c; 
-}
-
-/* En móviles, apilamos el nombre y la medalla para que no choquen con el botón */
-.hechizo-info {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: flex-start;
-  /* Evita que textos larguísimos empujen el botón fuera de la pantalla */
-  overflow: hidden; 
-}
-
-.hechizo-info h4 {
-  margin: 0;
-  font-size: 1.1rem;
-  color: white;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-
-/* =========================================
-   BOTÓN OLVIDAR (Acción Destructiva)
-   ========================================= */
-
-.btn-olvidar {
-  background-color: transparent;
-  color: #e74c3c; /* Rojo alerta */
-  border: 1px solid #e74c3c;
-  border-radius: 6px;
-  padding: 8px 12px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: all 0.2s ease;
-  flex-shrink: 0; /* Evita que el botón se aplaste si el nombre es muy largo */
-  margin-left: 10px;
-}
-
-.btn-olvidar:hover {
-  background-color: #e74c3c;
-  color: white;
-  box-shadow: 0 0 10px rgba(231, 76, 60, 0.4); /* Resplandor rojo sutil */
-}
-
-/* Aseguramos que el layout de cada item del grimorio sea flex */
-.hechizo-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Contenedor para los botones de la derecha (Lanzar y Olvidar) */
-.hechizo-acciones {
-    display: flex;
-    gap: 10px;
-}
-
-/* Botón de Lanzar Hechizo */
-.btn-lanzar {
-    padding: 5px 10px;
-    background-color: #8e44ad; /* Color base (activo) */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.btn-lanzar:hover:not(:disabled) {
-    background-color: #9b59b6; /* Un tono más claro al pasar el mouse */
-}
-
-/* Estado cuando no quedan spell slots */
-.btn-lanzar:disabled {
-    background-color: #555;
-    cursor: not-allowed;
-}
-/* =========================================
-   MEDIA QUERIES (Pantallas más grandes)
-   ========================================= */
-
-@media (min-width: 768px) {
-  .hechizo-item {
-    padding: 18px 20px;
-  }
-  
-  /* En tablets/desktop hay espacio, ponemos la medalla al lado del nombre */
-  .hechizo-info {
-    flex-direction: row; 
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .btn-olvidar {
-    padding: 10px 16px;
-    font-size: 0.9rem;
-  }
+.grimorio-seccion .horizontal-scroll::-webkit-scrollbar {
+  display: none;
 }

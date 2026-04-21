@@ -1,80 +1,52 @@
 import { useGrimorio } from "../hooks/useGrimorio";
 import React from "react";
 import './MiGrimorio.css';
+import '../spells/SpellCard.css'; // Importamos el CSS de las cards
 import { useCharacter } from "../hooks/useCharacter";
+import SpellCard from "../spells/SpellCard";
 
-export default function MiGrimorio({modoPersonaje = false}) {
-    const {hechizosGuardados, eliminarHechizo} = useGrimorio();
-    const {personaje, olvidarHechizo, lanzarHechizo} = useCharacter();
+export default function MiGrimorio({ modoPersonaje = false, preview = false }) {
+  const { hechizosGuardados } = useGrimorio();
+  const { personaje } = useCharacter();
 
-    const listaHechizos = modoPersonaje ? personaje.hechizos : hechizosGuardados;
+  const listaHechizos = modoPersonaje ? personaje.hechizos : hechizosGuardados;
 
-    const manejarBorrado = (hechizo) => {
-        if (modoPersonaje) {
-            olvidarHechizo(hechizo.index);
-        } else {
-            eliminarHechizo(hechizo.url);
-        }
-    };
-
-    if (listaHechizos.length === 0) {
-        return (
-            <div className="grimorio-vacio">
-                <h2>{modoPersonaje ? `Grimorio de ${personaje.nombre}` : "Mi Grimorio"}</h2>
-                <p>Las páginas están en blanco. Explora y añade hechizos a tu colección</p>
-            </div>
-        );
-    }
+  if (listaHechizos.length === 0) {
     return (
-        <div className="grimorio-container">
-            <h2>{modoPersonaje ? `Grimorio de ${personaje.nombre}` : "Mi Grimorio"}</h2>
-            <p className="contador">Hechizos memorizados: {listaHechizos.length}</p>
-
-            <ul className="lista-hechizos">
-                {listaHechizos.map((hechizo) => { //hice todo este chorizo porque escribi lo mio en español pero la api esta en ingles y no puedo filtrar
-                    const nombreMostrar = modoPersonaje ? hechizo.name : hechizo.nombre;
-                    const nivelMostrar = modoPersonaje ? hechizo.level : hechizo.nivel;
-                    const keyUnica = modoPersonaje ? hechizo.index : hechizo.url;
-
-                    const esTruco = nivelMostrar === 0;
-                    let puedeLanzar = true;
-
-                    if (modoPersonaje && !esTruco){
-                        const indice = nivelMostrar -1;
-                        const maximos = personaje.recursos.slots[indice];
-                        const gastados = personaje.slotsGastados[indice];
-                        puedeLanzar = gastados < maximos; //solo puede lanzar si gastó menos que el máximo
-                    }
-
-                    return (
-                        <li key={keyUnica} className="hechizo-item">
-                            <div className="hechizo-info">
-                                <h4>{nombreMostrar}</h4>
-                                <span className="medalla-nivel">
-                                    {nivelMostrar === 0 ? "Truco" : `Nivel ${nivelMostrar}`}
-                                </span>
-                            </div>
-
-                            <div className="hechizo-acciones">
-                                {modoPersonaje && (
-                                    <button
-                                        onClick={() => lanzarHechizo(nivelMostrar)}
-                                        disabled= {!puedeLanzar}
-                                        className="btn-lanzar"
-                                    >
-                                        {esTruco ? 'Usar' : 'Lanzar'}
-                                    </button>
-                                )}
-                            </div>
-                            
-                            {/* Pasamos el objeto completo a la función para que ella decida qué extraer */}
-                            <button className="btn-olvidar" onClick={() => manejarBorrado(hechizo)}>
-                                Olvidar
-                            </button>
-                        </li>
-                    );
-                })}
-            </ul>
-        </div>
+      <div className="grimorio-vacio">
+        <h2>{modoPersonaje ? `Grimorio de ${personaje.nombre}` : "Mi Grimorio"}</h2>
+        <p>Las páginas están en blanco. Explora y añade hechizos a tu colección</p>
+      </div>
     );
+  }
+
+  return (
+    <div className={`grimorio-seccion ${preview ? 'modo-preview' : ''}`}>
+      {!preview && <h2>{modoPersonaje ? `Grimorio de ${personaje.nombre}` : "Mi Grimorio"}</h2>}
+      <p className="contador">Hechizos memorizados: {listaHechizos.length}</p>
+
+      {/* Reutilizamos el contenedor de scroll horizontal */}
+      <div className="horizontal-scroll">
+        {listaHechizos.map((hechizo) => {
+          // Normalizamos los datos porque la API y tu estado local tienen nombres distintos
+          const nombre = modoPersonaje ? hechizo.name : hechizo.nombre;
+          const nivel = modoPersonaje ? hechizo.level : hechizo.nivel;
+          const url = modoPersonaje ? `/api/spells/${hechizo.index}` : hechizo.url;
+          const key = modoPersonaje ? hechizo.index : hechizo.url;
+
+          return (
+            <SpellCard
+              key={key}
+              hechizo={hechizo}
+              nombre={nombre}
+              nivel={nivel}
+              url={url}
+              modoPersonaje={modoPersonaje}
+              compact={true} // Forzamos el modo Netflix
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
 }
