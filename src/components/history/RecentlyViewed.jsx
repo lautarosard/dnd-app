@@ -1,25 +1,23 @@
+import SpellCard from "../spells/SpellCard";
 import { useHistory } from "../hooks/useHistory";
-import { useNavigate } from "react-router-dom";
 
-function RecentlyViewed() {
+export default function RecentlyViewed() {
   const { history } = useHistory();
-  const navigate = useNavigate();
 
-  if (!history.length) return null;
+  if (!history || history.length === 0) return null;
 
   return (
     <div className="horizontal-scroll">
       {history.map((spell) => (
-        <div
+        <SpellCard
           key={spell.index}
-          className="card"
-          onClick={() => navigate(`/detail/${spell.index}`)}
-        >
-          <p>{spell.name}</p>
-        </div>
+          hechizo={spell}
+          nombre={spell.name || spell.nombre}
+          nivel={spell.level ?? spell.nivel}
+          url={spell.url || `/api/spells/${spell.index}`}
+          compact={true} // Esto le da el estilo de las otras filas
+        />
       ))}
     </div>
   );
 }
-
-export default RecentlyViewed;

@@ -1,0 +1,114 @@
+.hero-card {
+    background: var(--color-surface);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--color-card);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    margin-bottom: 25px;
+    transition: transform 0.3s ease;
+}
+
+.hero-image-container {
+    position: relative;
+    height: 250px;
+    width: 100%;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+.hero-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to top, var(--color-surface), transparent);
+}
+
+.hero-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--color-gold);
+    color: black;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    box-shadow: 0 0 15px var(--color-gold);
+}
+
+.hero-info {
+    padding: 20px;
+    text-align: center;
+}
+
+.hero-info h3 {
+    color: var(--color-text-primary);
+    margin: 0;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.hero-class-name {
+    color: var(--color-gold);
+    text-transform: capitalize;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.hero-stats-row {
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid var(--color-card);
+    padding-top: 15px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    color: var(--color-text-primary);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.stat-label {
+    color: var(--color-text-muted);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+/* Ajuste específico cuando la card está en el Home */
+.hero-home-section .hero-card {
+    margin-top: 10px;
+    /* Un toque de brillo para que destaque como sección final */
+    border: 1px solid rgba(212, 175, 55, 0.3); 
+    background: linear-gradient(180deg, var(--color-surface) 0%, #161616 100%);
+}
+
+/* Animación de entrada para que aparezca suavemente */
+.hero-home-section {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
