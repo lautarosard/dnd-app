@@ -33,25 +33,69 @@ body {
     
 .tarjeta-hechizo {
   background-color: #2c3e50;
-  border-radius: 8px;
-  padding: 15px;
+  border-radius: 5px;
+  padding: 15px 25px 15px 15px;
   color: white;
   cursor: pointer;
+  border: 1px solid #34495e;
   border-left: 4px solid transparent;
-  transition: all 0.3s ease; 
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  position: relative;
+  margin-top: -15px;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.4);
+  z-index: 1;
+}
+.tarjeta-hechizo::before,
+.card-compact::before { /* Lo aplicamos a ambas vistas */
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: -1; 
+  opacity: 1; /* Opacidad base */
+  transition: opacity 0.3s ease;
+  
+  /* ¡TRUCO CLAVE! Esto hace que el fondo cuadrado no se salga
+     de los bordes redondeados de tu tarjeta */
+  border-radius: inherit; 
+}
+.tarjeta-hechizo:hover::before,
+.tarjeta-hechizo.abierta::before,
+.card-compact:hover::before,
+.card-compact.compact-expandida::before {
+  opacity: 0.8; 
+}
+
+
+.tarjeta-hechizo:first-child{
+  margin-top: 0;
 }
 .tarjeta-hechizo:hover {
   background-color: #34495e;
+  transform: translateY(-5px);
+  z-index: 10;
 }
 .tarjeta-hechizo.abierta {
   border-left: 4px solid #f39c12; 
   background-color: #243342;
+
+  z-index: 20;
+  margin-top: 5px;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.6);
 }
 .tarjeta-cabecera {
   display: flex;
   flex-direction: row; 
   justify-content: space-between; 
   align-items: flex-start; 
+
+  min-width: 0;
+  word-break: break-word;
 }
 .tarjeta-cabecera h3 {
   margin: 0;
@@ -83,6 +127,11 @@ body {
   padding-top: 15px;
   border-top: 1px solid #4a6278; 
   animation: deslizarAbajo 0.3s ease-out; 
+}
+.info-detallada {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 .info-detallada p {
   margin: 5px 0;
@@ -197,16 +246,18 @@ body {
 .acciones {
   display: flex;
   flex-direction: column; /* En móvil, uno sobre otro es más fácil de tocar */
-  gap: 8px;
+  gap: 30px;
   margin-top: 12px;
 }
 
 .btn-agregar {
   background: var(--color-primary);
   width: 100%;
+  max-width: 250px;
   min-width: unset; /* Quitamos el min-width de 200px que rompía el móvil */
-  padding: 12px;
+  padding: 16px 20px;
   justify-content: center;
+  display: flex;
 }
 
 /* --- MEDIA QUERIES (Escritorio) --- */

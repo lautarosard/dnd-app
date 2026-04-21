@@ -1,10 +1,12 @@
 import './SpellCard.css';
+import './MagicSchools.css';
 import { useState } from 'react';
 import { Loader } from '../shares/loading';
 import { useGrimorio } from '../hooks/useGrimorio';
 import { useCharacter } from '../hooks/useCharacter';
 import { useHistory } from "../hooks/useHistory"; // Asegúrate de tener este import
 import { useNavigate } from 'react-router-dom';
+
 
 export default function SpellCard({ hechizo, nombre, nivel, url, modoPersonaje, compact }) {
   const [expandido, setExpandido] = useState(false);
@@ -88,13 +90,14 @@ export default function SpellCard({ hechizo, nombre, nivel, url, modoPersonaje, 
       )}
     </div>
   );
+  const escuelaClase = hechizo?.school?.index ? `bg-${hechizo.school.index}` : 'bg-default';
 
   // --- RENDERIZADO ---
   return (
     <div
       className={compact
-        ? `card-compact ${expandido ? 'compact-expandida' : ''}`
-        : `tarjeta-hechizo ${expandido ? 'abierta' : ''}`
+        ? `card-compact ${expandido ? 'compact-expandida' : ''} ${escuelaClase}`
+        : `tarjeta-hechizo ${expandido ? 'abierta' : ''} ${escuelaClase}`
       }
       onClick={manejarTap}
     >
@@ -102,13 +105,13 @@ export default function SpellCard({ hechizo, nombre, nivel, url, modoPersonaje, 
       <div className={compact ? "card-header-compact" : "tarjeta-cabecera"}>
         {compact ? (
           <>
-            <div className="card-icon">{icono}</div>
+            {/*<div className="card-icon">{icono}</div>*/}
             <p className="card-title">{nombre}</p>
             <span className="card-level">{nivel === 0 ? "Truco" : `Nivel ${nivel}`}</span>
           </>
         ) : (
           <>
-            <h3>{icono} {nombre}</h3>
+            <h3>{/*icono*/} {nombre}</h3>
             <div className='cabecera-derecha'>
               <span className="medalla-nivel">{nivel === 0 ? "Truco" : `Nivel ${nivel}`}</span>
               <span className="icono-desplegable">{expandido ? '▲' : '▼'}</span>
