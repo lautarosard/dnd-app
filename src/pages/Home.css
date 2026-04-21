@@ -71,7 +71,44 @@
   .horizontal-scroll::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 101, 0, 0.6);
   }
+  .home {
+    display: grid;
+    /* Definimos dos columnas: la izquierda de 400px y la derecha el resto */
+    grid-template-columns: 400px 1fr;
+    grid-template-areas: 
+      "hero hero"
+      "sidebar content";
+    gap: 20px;
+    align-items: start;
+  }
 
+  /* El Hero sigue ocupando todo el ancho arriba */
+  .hero {
+    grid-area: hero;
+  }
+
+  /* La sección del personaje se vuelve nuestra barra lateral */
+  .hero-home-section {
+    grid-area: sidebar;
+    position: sticky; /* Se queda fija mientras scrolleas el resto */
+    top: 100px; /* Ajustar según el alto de tu navbar */
+    padding-right: 10px;
+  }
+
+  /* Contenedor para los carruseles de la derecha */
+  .home-content-area {
+    grid-area: content;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Ajustamos la CharacterCard para que no se estire */
+  .hero-home-section .character-card-wrapper {
+    max-width: 350px; /* Mantiene el tamaño de mobile */
+    margin: 0 auto;
+  }
+  
   /* Firefox en PC */
   @supports (scrollbar-width: thin) {
     .horizontal-scroll {
