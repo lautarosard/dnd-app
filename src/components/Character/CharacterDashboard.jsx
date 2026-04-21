@@ -134,13 +134,12 @@ export default function CharacterDashboard() {
 
       {/* CUERPO: Buscador y Grimorio */}
       <div className="layout-principal">
+        <div id="seccion-grimorio">
+          <MiGrimorio modoPersonaje={true} />
+        </div>
         <div id="seccion-hechizos">
           <h3>Hechizos Disponibles</h3>
           <SpellsDashboard modoPersonaje={true} />
-        </div>
-
-        <div id="seccion-grimorio">
-          <MiGrimorio modoPersonaje={true} />
         </div>
       </div>
     </div>
