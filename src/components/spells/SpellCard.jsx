@@ -90,7 +90,7 @@ export default function SpellCard({ hechizo, nombre, nivel, url, modoPersonaje, 
       )}
     </div>
   );
-  const escuelaClase = hechizo?.school?.index ? `bg-${hechizo.school.index}` : 'bg-default';
+  const escuelaClase = hechizo?.school?.index ? `carta-bg-${hechizo.school.index}` : 'bg-default';
 
   // --- RENDERIZADO ---
   return (
