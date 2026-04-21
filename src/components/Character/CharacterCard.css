@@ -95,6 +95,7 @@
     /* Un toque de brillo para que destaque como sección final */
     border: 1px solid rgba(212, 175, 55, 0.3); 
     background: linear-gradient(180deg, var(--color-surface) 0%, #161616 100%);
+    
 }
 
 /* Animación de entrada para que aparezca suavemente */

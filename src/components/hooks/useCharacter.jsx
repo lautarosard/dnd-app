@@ -31,7 +31,7 @@ export function CharacterProvider({children}) {
     };
 
     const borrarPersonaje = () => {
-        setPersonaje({ nombre: '', clase: '', nivel: '', recursos: null, hechizos: [] });
+        setPersonaje({ nombre: '', clase: '', nivel: '', recursos: null, hechizos: [], slotsGastados: [0,0,0,0,0,0,0,0,0] });
     };
 
     const aprenderHechizo = (hechizo) => {
