@@ -12,7 +12,7 @@ import Detail from "./pages/Detail";
 import Wishlist from "./pages/Wishlist";
 import History from "./pages/History";
 import Contact from "./pages/Contact";
-
+import Explorar from './pages/Explorar';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +26,7 @@ const router = createBrowserRouter([
       { path: "/wishlist", element: <Wishlist /> },
       { path: "/history", element: <History /> },
       { path: "/contact", element: <Contact /> },
+      { path: "/explorar", element: <Explorar/>}
     ],
   },
 ]);

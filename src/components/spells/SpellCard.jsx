@@ -13,16 +13,15 @@ export default function SpellCard({ hechizo, nombre, nivel, url, modoPersonaje, 
   const [cargando, setEstaCargando] = useState(false);
   const [detalles, setDetalles] = useState(null);
 
-  const { agregarHechizo: agregarAlGrimorioGeneral } = useGrimorio();
-  const { aprenderHechizo: agregarAlPersonaje } = useCharacter();
+  const { agregarHechizo: agregarAlGrimorioGeneral, eliminarHechizo: eliminarAlGrimorioGeneral, hechizosGuardados } = useGrimorio();
+  const { aprenderHechizo: agregarAlPersonaje, olvidarHechizo: olvidarAlPersonaje, personaje } = useCharacter();
   const { addToHistory } = useHistory();
   const navigate = useNavigate();
 
-  const schoolIcons = {
-    evocation: "🔥", necromancy: "💀", illusion: "🌀", abjuration: "🛡️",
-    conjuration: "✨", divination: "🔮", enchantment: "💜", transmutation: "⚗️",
-  };
-  const icono = schoolIcons[hechizo?.school?.index] || "📜";
+  
+  const estaGuardado = hechizosGuardados?.some(h => h.url === url);
+  const estaAprendido = personaje?.hechizos?.some(h => h.index === hechizo.index);
+  const yaLoTiene = modoPersonaje ? estaAprendido : estaGuardado;
 
   const fetchSpellDetail = async () => {
     const res = await fetch(`https://www.dnd5eapi.co${url}`);
@@ -52,6 +51,25 @@ export default function SpellCard({ hechizo, nombre, nivel, url, modoPersonaje, 
     }
   };
 
+  const manejarAccion = (e) => {
+    e.stopPropagation(); // Evita que se cierre la carta al clickear el botón
+
+    if (modoPersonaje) {
+      if (estaAprendido) {
+        olvidarAlPersonaje(hechizo.index);
+      } else {
+        agregarAlPersonaje(hechizo);
+      }
+    } else {
+      if (estaGuardado) {
+        eliminarAlGrimorioGeneral(url);
+      } else {
+        agregarAlGrimorioGeneral({ nombre, nivel, url });
+        alert(`¡${nombre} añadido al Grimorio Global!`);
+      }
+    }
+  };
+
   const manejarClickAgregar = (e) => {
     e.stopPropagation();
     if (modoPersonaje) {
@@ -75,14 +93,14 @@ export default function SpellCard({ hechizo, nombre, nivel, url, modoPersonaje, 
             <p><strong>Duración:</strong> {detalles.duration}</p>
             <p className="descripcion">{detalles.desc?.[0]}</p>
             <div className="acciones">
-              <button className="btn-agregar" onClick={manejarClickAgregar}>
-                {modoPersonaje ? "Aprender" : "Guardar"}
-              </button>
-              <button
-                className="btn-detalle"
-                onClick={(e) => { e.stopPropagation(); navigate(`/detail/${hechizo.index}`); }}
+              <button 
+                className="btn-agregar" 
+                onClick={manejarAccion}
+                style={yaLoTiene ? { backgroundColor: '#c0392b' } : {}} // Se vuelve rojo si ya lo tiene
               >
-                Ver más →
+                {modoPersonaje 
+                  ? (estaAprendido ? "Olvidar" : "Aprender") 
+                  : (estaGuardado ? "Eliminar" : "Guardar")}
               </button>
             </div>
           </div>
