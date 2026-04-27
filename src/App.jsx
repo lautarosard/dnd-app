@@ -11,7 +11,10 @@ import Search from "./pages/Search";
 import Detail from "./pages/Detail";
 import Wishlist from "./pages/Wishlist";
 import History from "./pages/History";
+
 import Contacto from "./pages/Contact";
+import Explorar from './pages/Explorar';
+
 
 const router = createBrowserRouter([
   {
@@ -24,7 +27,10 @@ const router = createBrowserRouter([
       { path: "/detail/:id", element: <Detail /> },
       { path: "/wishlist", element: <Wishlist /> },
       { path: "/history", element: <History /> },
+
       { path: "/contacto", element: <Contacto /> },
+      { path: "/explorar", element: <Explorar/>}
+
     ],
   },
 ]);

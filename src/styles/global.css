@@ -7,8 +7,9 @@
 }
 
 body {
-  background-color: var(--color-bg);
   color: var(--color-text-primary);
   font-family: sans-serif;
-  padding-top: 80px;
+  padding-top: 60px;
+  background-color: #000;
 }
+

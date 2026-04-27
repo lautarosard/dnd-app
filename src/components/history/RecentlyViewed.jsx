@@ -8,9 +8,9 @@ export default function RecentlyViewed() {
 
   return (
     <div className="horizontal-scroll">
-      {history.map((spell) => (
+      {history.map((spell, index) => (
         <SpellCard
-          key={spell.index}
+          key={`${spell.index}-${index}`}
           hechizo={spell}
           nombre={spell.name || spell.nombre}
           nivel={spell.level ?? spell.nivel}
