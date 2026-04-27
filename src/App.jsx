@@ -11,13 +11,15 @@ import Search from "./pages/Search";
 import Detail from "./pages/Detail";
 import Wishlist from "./pages/Wishlist";
 import History from "./pages/History";
-import Contact from "./pages/Contact";
+
+import Contacto from "./pages/Contact";
 import Explorar from './pages/Explorar';
+
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />, // 👈 acá metemos el layout
+    element: <Layout />, 
     children: [
       { path: "/", element: <Home /> },
       { path: "/forja", element: <ForjaPersonaje /> },
@@ -25,8 +27,10 @@ const router = createBrowserRouter([
       { path: "/detail/:id", element: <Detail /> },
       { path: "/wishlist", element: <Wishlist /> },
       { path: "/history", element: <History /> },
-      { path: "/contact", element: <Contact /> },
+
+      { path: "/contacto", element: <Contacto /> },
       { path: "/explorar", element: <Explorar/>}
+
     ],
   },
 ]);
