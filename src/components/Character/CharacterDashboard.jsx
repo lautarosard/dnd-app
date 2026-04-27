@@ -5,8 +5,11 @@ import MiGrimorio from "../Grimorio/MiGrimorio";
 import './CharacterDashboard.css'
 import { useState } from "react";
 import CharacterCard from "./CharacterCard";
+import Toast from "../shares/Toast";
+
 export default function CharacterDashboard() {
   const { personaje, borrarPersonaje, actualizarPersonaje, descansoLargo } = useCharacter();
+  const [mensajeToast, setMensajeToast] = useState("");
 
   const [cargandoNivel, setCargandoNivel] = useState(false);
 
@@ -49,6 +52,11 @@ export default function CharacterDashboard() {
       setCargandoNivel(false);
     }
   };
+
+  const manejarDescansoLargo = () => {
+    descansoLargo();
+    setMensajeToast("Descanso largo completado. Magia restaurada.");
+  };
   return (
     <div className="character-dashboard-container">
       {/* CABECERA: Ficha del Personaje */}
@@ -83,6 +91,7 @@ export default function CharacterDashboard() {
                 </button>
               </div>
             )}
+            <Toast mensaje={mensajeToast} onClose={() => setMensajeToast("")}/>
           </div>
 
           {/*ZONA DE SPELL SLOTS */}
@@ -117,7 +126,7 @@ export default function CharacterDashboard() {
                 );
               })}
 
-              <button onClick={descansoLargo} className="btn-descanso-largo">
+              <button onClick={manejarDescansoLargo} className="btn-descanso-largo">
                 Descanso Largo
               </button>
             </div>

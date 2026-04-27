@@ -4,12 +4,14 @@ import { Loader } from '../shares/loading';
 import { useCharacter } from '../hooks/useCharacter';
 import './CharacterBuilder.css';
 import ClassCarousel from "./ClassCarousel";
-
+import Toast from "../shares/Toast";
 
 export default function CharacterBuilder(){
     const [nombre, setNombre] = useState('');
     const [clase, setClase] = useState('');
-    const [nivel, setNivel] = useState(''); 
+    const [nivel, setNivel] = useState('');
+    
+    const [mensajeToast, setMensajeToast] = useState("");
 
     const {actualizarPersonaje} = useCharacter();
 
@@ -74,7 +76,7 @@ export default function CharacterBuilder(){
     const manejarGuardado = (e) => {
         e.preventDefault(); //que no se recargue la pagina por dios
         if (!nombre || !clase || !nivel) {
-            alert("Faltan datos en tu hoja de personaje.");
+            setMensajeToast("Faltan datos en tu hoja de personaje.");
             return;
         }
         const nivelNum = parseInt(nivel);
@@ -102,7 +104,6 @@ export default function CharacterBuilder(){
             nivel: nivelNum,
             recursos: recursosMagicos
         });
-        alert(`¡${nombre} nivel ${nivel} registrado en el Grimorio!`);
     };
 
     return (
@@ -144,74 +145,11 @@ export default function CharacterBuilder(){
                         <button type="submit" className="btn-agregar" style={{ marginTop: '15px', width: '100%' }} disabled={cargandoClase}>
                             Concluir Creación
                         </button>
+                        <Toast mensaje={mensajeToast} onClose={() => setMensajeToast("")} />
                     </form>
                 </div>
             )}
         </div>
     );
-    /*
-    return(
-        <div className="character-builder-container">
-            <h2>Forjar Personaje</h2>
-            <p>Define tu aventurero para calcular tus espacios de magia.</p>
-
-            <form onSubmit={manejarGuardado} className="form-personaje">
-                
-                <div className="form-grupo">
-                    <label>Nombre del Aventurero</label>
-                    <input 
-                        type="text" 
-                        value={nombre} 
-                        onChange={(e) => setNombre(e.target.value)} 
-                        placeholder="Ej: Eldor el Sabio"
-                        className="input-buscador" 
-                    />
-                </div>
-
-                <div className="form-grupo">
-                    <label>Clase Mágica</label>
-                    <select 
-                        value={clase} 
-                        onChange={(e) => setClase(e.target.value)}
-                        className="select-nivel"
-                        style={{ width: '100%' }}
-                    >
-                        <option value="">Selecciona tu clase...</option>
-                        <option value="bard">Bardo (Full Caster)</option>
-                        <option value="cleric">Clérigo (Full Caster)</option>
-                        <option value="druid">Druida (Full Caster)</option>
-                        <option value="paladin">Paladín (Half Caster)</option>
-                        <option value="ranger">Explorador (Half Caster)</option>
-                        <option value="sorcerer">Hechicero (Full Caster)</option>
-                        <option value="warlock">Brujo (Pact Magic)</option>
-                        <option value="wizard">Mago (Full Caster)</option>
-                    </select>
-                </div>
-
-                {cargandoClase? (<Loader message="Consultando tomos de progresión..."/>) :(
-                    <div className="form-grupo">
-                        <label>Nivel Total</label>
-                        <input 
-                            type="number" 
-                            min="1" 
-                            max="20"
-                            value={nivel} 
-                            onChange={(e) => setNivel(e.target.value)} 
-                            placeholder="Nivel (1 - 20)"
-                            className="input-buscador"
-                            disabled={!clase} //para no ejar elegir nivel si no hay clase
-                        />
-                    </div>
-                )}
-                <button type="submit" className="btn-agregar" style={{ marginTop: '15px', width: '100%' }}
-                disabled={cargandoClase || !clase}>
-                    <i className="animation"></i>
-                    Vincular Personaje
-                    <i className="animation"></i>
-                </button>
-            </form>
-
-        </div>
-    );¨
-    */
+    
 }

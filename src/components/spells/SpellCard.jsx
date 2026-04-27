@@ -6,15 +6,17 @@ import { useGrimorio } from '../hooks/useGrimorio';
 import { useCharacter } from '../hooks/useCharacter';
 import { useHistory } from "../hooks/useHistory"; // Asegúrate de tener este import
 import { useNavigate } from 'react-router-dom';
+import Toast from '../shares/Toast';
 
 
 export default function SpellCard({ hechizo, nombre, nivel, url, modoPersonaje, compact }) {
   const [expandido, setExpandido] = useState(false);
   const [cargando, setEstaCargando] = useState(false);
   const [detalles, setDetalles] = useState(null);
+  const [toastMsg, setToastMsg] = useState('');
 
   const { agregarHechizo: agregarAlGrimorioGeneral, eliminarHechizo: eliminarAlGrimorioGeneral, hechizosGuardados } = useGrimorio();
-  const { aprenderHechizo: agregarAlPersonaje, olvidarHechizo: olvidarAlPersonaje, personaje } = useCharacter();
+  const { aprenderHechizo: agregarAlPersonaje, olvidarHechizo: olvidarAlPersonaje, personaje, lanzarHechizo } = useCharacter();
   const { addToHistory } = useHistory();
   const navigate = useNavigate();
 
@@ -79,6 +81,17 @@ export default function SpellCard({ hechizo, nombre, nivel, url, modoPersonaje, 
       alert(`¡${nombre} añadido al Grimorio Global!`);
     }
   };
+  const manejarLanzar = (e) => {
+    e.stopPropagation(); // Evita que se cierre la tarjeta
+    lanzarHechizo(nivel);
+    
+    // Un pequeño feedback visual para saber que funcionó
+    if (nivel === 0) {
+      alert(`Has lanzado ${nombre}. (Los trucos no gastan slots)`);
+    } else {
+      setToastMsg('Hechizo lanzado!')
+    }
+  };
 
   // --- CONTENIDO DETALLADO (REUTILIZABLE) ---
   const contenidoExpandido = (
@@ -102,12 +115,26 @@ export default function SpellCard({ hechizo, nombre, nivel, url, modoPersonaje, 
                   ? (estaAprendido ? "Olvidar" : "Aprender") 
                   : (estaGuardado ? "Eliminar" : "Guardar")}
               </button>
+              {modoPersonaje && estaAprendido &&(
+                <>
+                  <button 
+                    className="btn-lanzar" 
+                    onClick={manejarLanzar}
+                  /* style={{ backgroundColor: '#2ecc71', flex: 1, padding: '8px', border: 'none', borderRadius: '5px', color: 'white', fontWeight: 'bold', cursor: 'pointer' }}*/
+                  >
+                    Lanzar
+                  </button>
+                  <Toast mensaje={toastMsg} onClose={() => setToastMsg('')}/>
+                </>
+              )}
+              
             </div>
           </div>
         )
       )}
     </div>
   );
+  
   const escuelaClase = hechizo?.school?.index ? `carta-bg-${hechizo.school.index}` : 'bg-default';
 
   // --- RENDERIZADO ---

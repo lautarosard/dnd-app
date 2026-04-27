@@ -1,0 +1,41 @@
+.toast-magico {
+  position: fixed;
+  top: 30px;
+  left: 50%; /* Cambia a left o center según prefieras */
+  transform: translateX(-50%);
+
+  background-color: #2ecc71; /* Tu verde esmeralda */
+  color: #1a252f;
+  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1000; /* Asegura que esté por encima de todo */
+  pointer-events: none; /* Evita que moleste si el usuario hace click ahí */
+  
+  /* Animación súper simple de entrada */
+  animation: deslizarAbajo 0.3s ease-out forwards;
+}
+
+@keyframes deslizarAbajo {
+  from {
+    /* Mantenemos el translateX(-50%) para que no pierda el centro durante la animación */
+    transform: translate(-50%, -20px); 
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes deslizarArriba {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
