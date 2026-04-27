@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
@@ -18,8 +19,17 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 export default function Contacto() {
-    // Coordenadas de ejemplo (La Plata, como en tu imagen)
-    const posicion = [-34.9214, -57.9546]; 
+    // ubi
+    const posicion = [-34.6051, -58.3772]; 
+    const [map, setMap] = useState(null);
+    
+    useEffect(() => {
+        if (map) {
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 250);
+        }
+    }, [map]);
 
     return (
         <main className="contacto-page">
@@ -55,20 +65,31 @@ export default function Contacto() {
                 <section className="seccion-info">
                     <div className="info-box character-builder-container">
                         <h3>Ubicación de la Torre</h3>
-                        <p>Calle Falsa 123, Plano Material</p>
+                        <p>Microcentro, Comuna 1</p>
+                        <p>Ciudad Autónoma de Buenos Aires, Argentina</p>
                         <p>Horario: Lun a Vie, 9 solsticios a 18 solsticios</p>
                     </div>
 
                     {/* MAPA INTERACTIVO */}
                     <div className="mapa-container">
-                        <MapContainer center={posicion} zoom={13} scrollWheelZoom={false} className="mapa-interactivo">
+                        <MapContainer 
+                        center={posicion} 
+                        zoom={16} 
+                        ref={setMap}
+                        scrollWheelZoom={true} 
+                        className="mapa-interactivo"
+                        whenReady={(mapInstance) => {
+                            setTimeout(() => {
+                                mapInstance.target.invalidateSize();
+                            }, 100);
+                        }}
+                        >
                             <TileLayer
-                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             />
                             <Marker position={posicion}>
                                 <Popup>
-                                    ¡Aquí forjamos el Grimorio!
+                                    ¡La Torre de los Escribas en el corazón de CABA!
                                 </Popup>
                             </Marker>
                         </MapContainer>
