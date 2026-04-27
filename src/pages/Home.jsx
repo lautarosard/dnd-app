@@ -30,38 +30,38 @@ function Home() {
       )}
 
       {/* VISTOS RECIENTEMENTE*/}
+      <div className="home-content-area">
+        <section className="home-section">
+          <div className="section-header">
+            <h2>Vistos recientemente</h2>
+          </div>
 
-      <section className="home-section">
-        <div className="section-header">
-          <h2>Vistos recientemente</h2>
-        </div>
+          <RecentlyViewed />
+        </section>
 
-        <RecentlyViewed />
-      </section>
+        {/* HECHIZOS */}
+        <section className="home-section">
+          <div className="section-header">
+            <h2>Hechizos</h2>
+            <span onClick={() => navigate("/search")}>
+              Ver más →
+            </span>
 
-      {/* HECHIZOS */}
-      <section className="home-section">
-        <div className="section-header">
-          <h2>Hechizos</h2>
-          <span onClick={() => navigate("/search")}>
-            Ver más →
-          </span>
+          </div>
 
-        </div>
+          <SpellsRow title="" />
+        </section>
 
-        <SpellsRow title="" />
-      </section>
+        {/* WISHLIST */}
+        <section className="home-section">
+          <div className="section-header">
+            <h2>Mi Grimorio</h2>
+            <span>Ver más →</span>
+          </div>
 
-      {/* WISHLIST */}
-      <section className="home-section">
-        <div className="section-header">
-          <h2>Mi Grimorio</h2>
-          <span>Ver más →</span>
-        </div>
-
-        <MiGrimorio preview />
-      </section>
-
+          <MiGrimorio preview />
+        </section>
+      </div>
       
     </main>
   );

@@ -1,5 +1,7 @@
 function Home() {
-  return <h1>Home</h1>;
+  return (
+    <div className="search-container"></div>
+  );
 }
 
 export default Home;

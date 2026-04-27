@@ -31,7 +31,7 @@ export function CharacterProvider({children}) {
     };
 
     const borrarPersonaje = () => {
-        setPersonaje({ nombre: '', clase: '', nivel: '', recursos: null, hechizos: [] });
+        setPersonaje({ nombre: '', clase: '', nivel: '', recursos: null, hechizos: [], slotsGastados: [0,0,0,0,0,0,0,0,0] });
     };
 
     const aprenderHechizo = (hechizo) => {
@@ -41,7 +41,7 @@ export function CharacterProvider({children}) {
         }
         if (hechizo.level === 0){
             const trucosActuales = personaje.hechizos.filter(h => h.level === 0).length;
-            const tructosMaximos = personaje.recursos?.cantrips || 0;
+            const trucosMaximos = personaje.recursos?.cantrips || 0;
 
             if (trucosActuales >= trucosMaximos) {
                 alert(`Tu clase solo te permite conocer ${trucosMaximos} trucos en este nivel.`);
@@ -62,8 +62,12 @@ export function CharacterProvider({children}) {
 
     const lanzarHechizo = (nivelHechizo) => {
         if (nivelHechizo === 0) return; //los trucos no gastan slots
-
         const indice = nivelHechizo -1;
+
+        if (personaje.slotsGastados[indice] >= (personaje.recursos?.slots[indice] || 0))
+        {
+            return alert("hechizos gastados para ese nivel");
+        }
         setPersonaje(prev => {
             const nuevosGastados = [...prev.slotsGastados];
             nuevosGastados[indice] += 1; //Aumentamos el contador de gastados
@@ -73,7 +77,6 @@ export function CharacterProvider({children}) {
 
     const descansoLargo = () => {
         setPersonaje(prev => ({...prev, slotsGastados: [0,0,0,0,0,0,0,0,0]}));
-        alert("El descanso te ha devuelto tu vitalidad mágica.");
     };
     
     const value = {

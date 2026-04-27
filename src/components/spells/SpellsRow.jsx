@@ -13,7 +13,7 @@ function SpellsRow({ title, limit = 10 }) {
     .slice(0, limit);
 
   return (
-    <section className="home-section">
+    <>
       <h2>{title}</h2>
 
       {/* El contenedor con scroll horizontal */}
@@ -30,7 +30,7 @@ function SpellsRow({ title, limit = 10 }) {
           />
         ))}
       </div>
-    </section>
+    </>
   );
 }
 

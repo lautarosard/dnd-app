@@ -6,23 +6,24 @@ import { useGrimorio } from '../hooks/useGrimorio';
 import { useCharacter } from '../hooks/useCharacter';
 import { useHistory } from "../hooks/useHistory"; // Asegúrate de tener este import
 import { useNavigate } from 'react-router-dom';
+import Toast from '../shares/Toast';
 
 
 export default function SpellCard({ hechizo, nombre, nivel, url, modoPersonaje, compact }) {
   const [expandido, setExpandido] = useState(false);
   const [cargando, setEstaCargando] = useState(false);
   const [detalles, setDetalles] = useState(null);
+  const [toastMsg, setToastMsg] = useState('');
 
-  const { agregarHechizo: agregarAlGrimorioGeneral } = useGrimorio();
-  const { aprenderHechizo: agregarAlPersonaje } = useCharacter();
+  const { agregarHechizo: agregarAlGrimorioGeneral, eliminarHechizo: eliminarAlGrimorioGeneral, hechizosGuardados } = useGrimorio();
+  const { aprenderHechizo: agregarAlPersonaje, olvidarHechizo: olvidarAlPersonaje, personaje, lanzarHechizo } = useCharacter();
   const { addToHistory } = useHistory();
   const navigate = useNavigate();
 
-  const schoolIcons = {
-    evocation: "🔥", necromancy: "💀", illusion: "🌀", abjuration: "🛡️",
-    conjuration: "✨", divination: "🔮", enchantment: "💜", transmutation: "⚗️",
-  };
-  const icono = schoolIcons[hechizo?.school?.index] || "📜";
+  
+  const estaGuardado = hechizosGuardados?.some(h => h.url === url);
+  const estaAprendido = personaje?.hechizos?.some(h => h.index === hechizo.index);
+  const yaLoTiene = modoPersonaje ? estaAprendido : estaGuardado;
 
   const fetchSpellDetail = async () => {
     const res = await fetch(`https://www.dnd5eapi.co${url}`);
@@ -52,6 +53,25 @@ export default function SpellCard({ hechizo, nombre, nivel, url, modoPersonaje, 
     }
   };
 
+  const manejarAccion = (e) => {
+    e.stopPropagation(); // Evita que se cierre la carta al clickear el botón
+
+    if (modoPersonaje) {
+      if (estaAprendido) {
+        olvidarAlPersonaje(hechizo.index);
+      } else {
+        agregarAlPersonaje(hechizo);
+      }
+    } else {
+      if (estaGuardado) {
+        eliminarAlGrimorioGeneral(url);
+      } else {
+        agregarAlGrimorioGeneral({ nombre, nivel, url });
+        alert(`¡${nombre} añadido al Grimorio Global!`);
+      }
+    }
+  };
+
   const manejarClickAgregar = (e) => {
     e.stopPropagation();
     if (modoPersonaje) {
@@ -59,6 +79,17 @@ export default function SpellCard({ hechizo, nombre, nivel, url, modoPersonaje, 
     } else {
       agregarAlGrimorioGeneral({ nombre, nivel, url });
       alert(`¡${nombre} añadido al Grimorio Global!`);
+    }
+  };
+  const manejarLanzar = (e) => {
+    e.stopPropagation(); // Evita que se cierre la tarjeta
+    lanzarHechizo(nivel);
+    
+    // Un pequeño feedback visual para saber que funcionó
+    if (nivel === 0) {
+      alert(`Has lanzado ${nombre}. (Los trucos no gastan slots)`);
+    } else {
+      setToastMsg('Hechizo lanzado!')
     }
   };
 
@@ -75,22 +106,36 @@ export default function SpellCard({ hechizo, nombre, nivel, url, modoPersonaje, 
             <p><strong>Duración:</strong> {detalles.duration}</p>
             <p className="descripcion">{detalles.desc?.[0]}</p>
             <div className="acciones">
-              <button className="btn-agregar" onClick={manejarClickAgregar}>
-                {modoPersonaje ? "Aprender" : "Guardar"}
-              </button>
-              <button
-                className="btn-detalle"
-                onClick={(e) => { e.stopPropagation(); navigate(`/detail/${hechizo.index}`); }}
+              <button 
+                className="btn-agregar" 
+                onClick={manejarAccion}
+                style={yaLoTiene ? { backgroundColor: '#c0392b' } : {}} // Se vuelve rojo si ya lo tiene
               >
-                Ver más →
+                {modoPersonaje 
+                  ? (estaAprendido ? "Olvidar" : "Aprender") 
+                  : (estaGuardado ? "Eliminar" : "Guardar")}
               </button>
+              {modoPersonaje && estaAprendido &&(
+                <>
+                  <button 
+                    className="btn-lanzar" 
+                    onClick={manejarLanzar}
+                  /* style={{ backgroundColor: '#2ecc71', flex: 1, padding: '8px', border: 'none', borderRadius: '5px', color: 'white', fontWeight: 'bold', cursor: 'pointer' }}*/
+                  >
+                    Lanzar
+                  </button>
+                  <Toast mensaje={toastMsg} onClose={() => setToastMsg('')}/>
+                </>
+              )}
+              
             </div>
           </div>
         )
       )}
     </div>
   );
-  const escuelaClase = hechizo?.school?.index ? `bg-${hechizo.school.index}` : 'bg-default';
+  
+  const escuelaClase = hechizo?.school?.index ? `carta-bg-${hechizo.school.index}` : 'bg-default';
 
   // --- RENDERIZADO ---
   return (

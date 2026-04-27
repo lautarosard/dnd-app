@@ -49,6 +49,7 @@ body {
   margin-top: -15px;
   box-shadow: 0 -4px 10px rgba(0,0,0,0.4);
   z-index: 1;
+  
 }
 .tarjeta-hechizo::before,
 .card-compact::before { /* Lo aplicamos a ambas vistas */
@@ -173,6 +174,27 @@ body {
   border-radius: 100%;
   animation: ripple 0.6s linear infinite;
 }
+.btn-lanzar {
+  outline: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #2ecc71;
+  min-width: 200px;
+  border: 0;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+  box-sizing: border-box;
+  padding: 16px 20px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  overflow: hidden;
+  cursor: pointer;
+  
+}
 
 @keyframes ripple {
   0% {
@@ -191,7 +213,33 @@ body {
                 0 0 0 80px rgba(255, 0, 0, 0); 
   }
 }
+.card-header-compact {
+ margin: -12px -12px 0 -12px;
+ padding: 12px 12px 24px 12px;
+ background: linear-gradient(
+    to bottom, 
+    rgba(15, 15, 20, 0.95) 0%,   /* Bien oscuro en la punta de arriba */
+    rgba(15, 15, 20, 0.7) 60%,   /* Cubre bien el texto de título y nivel */
+    transparent 100%             /* Se funde con el fondo de la escuela de magia */
+  );
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 
+  position: relative;
+  z-index: 2;
+}
+.card-header-compact::after {
+  content: "";
+  position: absolute;
+  bottom: 15px; /* Qué tan abajo de la cabecera querés la línea */
+  left: 10px;  /* Espacio libre a la izquierda */
+  right: 15px; /* Espacio libre a la derecha */
+  height: 1px; /* El grosor de la línea */
+  
+  /* Un color blanco muy sutil. Podés cambiarlo por var(--color-gold) si la querés dorada */
+  background-color: rgba(255, 255, 255, 0.15); 
+}
 .card-compact {
   /* En móviles: se ven 2 tarjetas y media para indicar scroll */
   min-width: 150px;
@@ -207,6 +255,7 @@ body {
   border: 1px solid transparent;
   transition: all 0.3s ease;
   scroll-snap-align: start; /* Para que encaje al deslizar */
+
   
   position: relative; /* INDISPENSABLE para que el fondo funcione */
   overflow: hidden;    /* Para que la imagen no se salga de las esquinas redondeadas */
@@ -255,6 +304,7 @@ body {
 .card-compact .btn-detalle:hover {
   background: rgba(243, 156, 18, 0.1) !important; /* Un brillo dorado suave de fondo */
   box-shadow: 0 0 10px rgba(243, 156, 18, 0.2);
+
 }
 
 .card-compact:hover {

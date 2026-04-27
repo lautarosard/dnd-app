@@ -4,9 +4,22 @@
   align-items: center;
   justify-content: center;
   
-  background-color: var(--color-bg);
   text-align: center;
-  padding: 20px;
+  padding: 2px;
+
+  background-image: 
+    linear-gradient(
+      to bottom, 
+      rgba(0, 0, 0, 0.6) 0%,   /* Arriba: negro al 60% de opacidad (oscurece la imagen) */
+      rgba(0, 0, 0, 0.8) 60%,  /* Medio: se va poniendo más oscuro */
+      rgba(0, 0, 0, 1) 100%    /* Abajo: Negro puro (se funde con el fondo de tu app) */
+    ),
+    url('https://i.pinimg.com/1200x/89/2b/60/892b60d11eb60cfdb951e156f242e233.jpg'); /* Reemplazá con tu imagen */
+
+  /* Ajustes para que la imagen se vea perfecta */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .hero-content {

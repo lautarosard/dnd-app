@@ -4,12 +4,8 @@ import { useNavigate } from "react-router-dom";
 function Hero() {
   const navigate = useNavigate();
 
-  const scrollToSpells = () => {
-    const seccionDestino = document.getElementById("seccion-hechizos");
-    
-    if (seccionDestino) {
-      seccionDestino.scrollIntoView({ behavior: "smooth" });
-    }
+  const irAExplorar = () => {
+    navigate("/explorar");
   };
 
   const irAForja = () => {
@@ -27,7 +23,7 @@ function Hero() {
           <button className="hero-button" onClick={irAForja} style={{ backgroundColor: '#FF6500', color: 'white'}}>
             Forjar Personaje
           </button>
-          <button className="hero-button" onClick={scrollToSpells}>
+          <button className="hero-button" onClick={irAExplorar}>
             Explorar hechizos
           </button>
         </div>

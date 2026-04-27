@@ -53,10 +53,8 @@ function Navbar() {
       <div className={`side-menu ${menuOpen ? "open" : ""}`}>
 
         <p onClick={() => goTo("/")}>Home</p>
-        <p onClick={() => goTo("/search")}>Spells</p>
-        <p onClick={() => goTo("/wishlist")}>Wishlist</p>
-        <p onClick={() => goTo("/history")}>History</p>
-        <p onClick={() => goTo("/contact")}>Contacto</p>
+        <p onClick={() => goTo("/explorar")}>Spells</p>
+        <p onClick={() => goTo("/forja")}>Personaje</p>
       </div>
     </>
   );
