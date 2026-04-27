@@ -1,0 +1,102 @@
+.contacto-page {
+    padding: 20px;
+    min-height: 100dvh;
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.cabecera-contacto {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.cabecera-contacto h2 {
+    color: var(--color-gold);
+    margin: 15px 0 5px 0;
+}
+
+.btn-volver {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+/* Quita el efecto de espejismo del botón */
+.contacto-page .btn-agregar .animation {
+    display: none;
+}
+
+.contacto-page .btn-agregar {
+    text-shadow: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    position: relative;
+    /* Si quieres que sea un naranja sólido sin gradientes locos: */
+    background: var(--color-primary) !important; 
+}
+/* ---------------------------------------- */
+
+.layout-contacto {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.seccion-formulario, .seccion-info .info-box {
+    margin-bottom: 0; /* Anulamos el margin del builder para usar el gap */
+}
+
+.seccion-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info-box h3 {
+    color: var(--color-gold);
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+/* --- ESTILOS DEL MAPA --- */
+.mapa-container {
+    height: 300px; /* Altura en móvil */
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid var(--color-card);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.mapa-interactivo {
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+
+/* Reutilizamos y ajustamos el textarea que no existía */
+textarea.input-buscador {
+    font-family: inherit;
+    resize: vertical;
+}
+
+/* --- MEDIA QUERIES (Escritorio) --- */
+@media (min-width: 768px) {
+    .layout-contacto {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    
+    .seccion-formulario {
+        flex: 3; /* El formulario es más ancho */
+    }
+    
+    .seccion-info {
+        flex: 2; /* Info y mapa un poco más angostos */
+    }
+    
+    .mapa-container {
+        height: 400px; /* Más alto en escritorio */
+    }
+}

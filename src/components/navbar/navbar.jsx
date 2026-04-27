@@ -56,7 +56,7 @@ function Navbar() {
         <p onClick={() => goTo("/search")}>Spells</p>
         <p onClick={() => goTo("/wishlist")}>Wishlist</p>
         <p onClick={() => goTo("/history")}>History</p>
-        <p onClick={() => goTo("/contact")}>Contacto</p>
+        <p onClick={() => goTo("/contacto")}>Contacto</p>
       </div>
     </>
   );
