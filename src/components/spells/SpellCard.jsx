@@ -85,12 +85,9 @@ export default function SpellCard({ hechizo, nombre, nivel, url, modoPersonaje, 
     e.stopPropagation(); // Evita que se cierre la tarjeta
     lanzarHechizo(nivel);
     
-    // Un pequeño feedback visual para saber que funcionó
-    if (nivel === 0) {
-      alert(`Has lanzado ${nombre}. (Los trucos no gastan slots)`);
-    } else {
-      setToastMsg('Hechizo lanzado!')
-    }
+    
+    setToastMsg('Hechizo lanzado!')
+    
   };
 
   // --- CONTENIDO DETALLADO (REUTILIZABLE) ---
@@ -124,11 +121,14 @@ export default function SpellCard({ hechizo, nombre, nivel, url, modoPersonaje, 
                   >
                     Lanzar
                   </button>
-                  <Toast mensaje={toastMsg} onClose={() => setToastMsg('')}/>
+                  
                 </>
               )}
               
             </div>
+            {modoPersonaje && estaAprendido && (
+              <Toast mensaje={toastMsg} onClose={() => setToastMsg('')}/>
+            )}
           </div>
         )
       )}
